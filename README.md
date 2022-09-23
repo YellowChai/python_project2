@@ -1,23 +1,25 @@
 # python_project2
-Game design:
-SAVE YOUR PET! or PETE ? 
+
+SAVE YOUR PET! (or PETE ?) 
 
 About game 
-- player needs to find his pet and a key, and escape through the secret door. 
+- Player need to find his pet and escape from the monster's house
+    - Player need to find a pet 
+    - Player need to find a key
+    - player need to find a secret door
 
 Game Rules: 
-
-1. there are 13 rooms 
-2. there are 2 monsters 
-3. player has 1 life 
-4. there are 7 items total:
-    - medicine - can use it after the first monster attack, get one life back  
-    - weapon - can use when the player met monster(can get rid of one of the monsters),
-    - key - need it to open the secret door 
-    - secret door - way out(need a key)
-    - helper - user can ask how many steps the player is away from the monster 
-    - helper2 - user can ask if there is a pet or a monster in certain room 
- 
+1. There are 13 rooms in the monster's house
+    - 6 of the rooms have item that can be useful for the player
+2. There are 2 monsters in 2 different rooms. 
+3. Player has 1 life 
+4. 6 items:
+    - medicine : Player can use it at the first monster attack to get the life back  
+    - weapon : Player can use it when the player met monster(can get rid of one of the monsters)
+    - key : need it to open the secret door 
+    - secret door : way out(need a key)
+    - helper : Player can ask how many rooms he/she is away from the monster 
+    - helper2 : Player can ask if there is a pet or a monster in certain room 
 
 Game ends when:
 1. player found the pet and key and also found the secret door - player win
