@@ -17,6 +17,7 @@ def showInstructions():
     ''')
 
 def showStatus():
+    run = True
     """determine the current status of the player"""
     # print the player's current location
     print('---------------------------')
@@ -30,11 +31,31 @@ def showStatus():
         print('Your current options are...')
         if rooms[currentRoom]['item'] == "Helper":
             print('ask ' + rooms[currentRoom]['item'])
+            showOption(currentRoom)
+        elif rooms[currentRoom]['item'] == "Monster":
+            print("There is monster in this room! It's attacking you!! ")
+            if "Medicine" in inventory:
+                print("Thank God, you have medicine. You are healed from the attack")
+                inventory.pop("Medicine")   
+                showOption(currentRoom)     
+            elif "Weapon" in inventory:
+                print("You got rid of the monster with the weapon!")
+                inventory.pop("Weapon")
+                showOption(currentRoom)
+            else:
+                print("Sorry, you lost")
+                run = False
+                
         else:
             print('get ' + rooms[currentRoom]['item'])
+            showOption(currentRoom)
+        
     else: 
         print('There is no item found in ' + currentRoom)
+        showOption(currentRoom)
+    return run 
 
+def showOption(currentRoom):
     # print the options that player can go from current room.
     if "south" in rooms[currentRoom]:
         south = rooms[currentRoom]['south']
@@ -53,6 +74,8 @@ def showStatus():
         print(f'go west: {west}')
 
     print("---------------------------")
+    
+
 
 
 inventory = []
@@ -91,7 +114,7 @@ rooms = {
         'east' : 'Flex Room',
         'west' : 'Music Room',
         'north': 'Powder Room',
-        'item' : 'monster'
+        'item' : 'Monster'
     },
 
     'Bathroom' : {
@@ -150,19 +173,20 @@ rooms = {
 
 
 
+
 currentRoom = 'Hall'
 
 showInstructions()
 
+
 run = True
 # breaking this while loop means the game is over
 while run:
-    showStatus()
-
+    run = showStatus()
     # the player MUST type something in
     # otherwise input will keep asking
     move = ''
-    while move == '':  
+    while run and move == '':  
         move = input('>')
 
     # normalizing input:
@@ -210,8 +234,6 @@ while run:
         else:
             print(f"I don't feel anything in {room}")
         time.sleep(1.5)
-   
-
 
 
 
