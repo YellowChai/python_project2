@@ -1,6 +1,7 @@
 
 #!/usr/bin/env python3
 # A dictionary for each room with item and direction to linking room
+from pickle import FALSE
 import time
 
 
@@ -95,7 +96,6 @@ def showOption(currentRoom):
 
     print("---------------------------")
     
-def 
 
 
 inventory = []
@@ -103,89 +103,89 @@ inventory = []
 
 rooms = {
     
-    'Hall' : {
-        'south' : 'Living Room'
+    'hall' : {
+        'south' : 'living Room'
     },
 
-    'Living Room' : {
-        'south' : 'Library',
-        'east' : 'Bathroom',
-        'west' : 'Kitchen',
-        'north' : 'Hall'
+    'living Room' : {
+        'south' : 'library',
+        'east' : 'bathroom',
+        'west' : 'kitchen',
+        'north' : 'hall'
     },
 
-    'Library' : {
-        'south' : 'Powder Room',
-        'east' : 'Study Room',
-        'west' : 'Dining Room',
-        'north' : 'Living Room',
+    'library' : {
+        'south' : 'powder room',
+        'east' : 'study room',
+        'west' : 'dining room',
+        'north' : 'living Room',
         'item' : 'Helper'
     },
 
-    'Powder Room' : {
-        'south': 'Bedroom',
-        'east' : 'Guest Room',
-        'west' : 'Garden',
-        'north': 'Library',
-        'item' : 'Weapon'
+    'powder Room' : {
+        'south': 'bedroom',
+        'east' : 'guest Room',
+        'west' : 'garden',
+        'north': 'library',
+        'item' : 'weapon'
     },
 
-    'Bedroom' : {
-        'east' : 'Flex Room',
-        'west' : 'Music Room',
-        'north': 'Powder Room',
+    'bedroom' : {
+        'east' : 'flex Room',
+        'west' : 'music Room',
+        'north': 'powder Room',
         'item' : 'Monster'
     },
 
-    'Bathroom' : {
-        'south': 'Study Room',
-        'east' : 'Living Room',
+    'bathroom' : {
+        'south': 'study Room',
+        'east' : 'living Room',
         'item' : 'Medicine' 
     },
 
-    'Study Room' : {
-        'south': 'Garden',
-        'east' : 'Library',
-        'north': 'Bathroom',
+    'study Room' : {
+        'south': 'garden',
+        'east' : 'library',
+        'north': 'bathroom',
         'item' : 'Pete'  
     },
 
-    'Garden' : {
-        'south': 'Flex Room',
-        'east' : 'Powder Room',
-        'north': 'Study Room',
+    'garden' : {
+        'south': 'flex Room',
+        'east' : 'powder Room',
+        'north': 'study Room',
     },
 
-    'Flex Room' : {
-        'east' : 'Bedroom',
-        'north': 'Garden',
+    'flex Room' : {
+        'east' : 'bedroom',
+        'north': 'garden',
         'item' : 'Key'  
     },
 
-    'Kitchen' : {
-        'south': 'Dining Room',
-        'west' : 'Living Room',
+    'kitchen' : {
+        'south': 'dining Room',
+        'west' : 'living Room',
         'item' : 'Helper'  
     },
 
-    'Dining Room' : {
-        'south': 'Guest Room',
-        'west' : 'Library',
-        'North': 'Kitchen',
+    'dining Room' : {
+        'south': 'guest Room',
+        'west' : 'library',
+        'North': 'kitchen',
         'item' : 'Monster'  
     },
 
-    'Guest Room' : {
-        'south': 'Music Room',
-        'west' : 'Powder Room',
-        'North': 'Dining Room',
+    'guest Room' : {
+        'south': 'music Room',
+        'west' : 'powder Room',
+        'North': 'dining Room',
     },
 
 
-    'Music Room' : {
-        'west' : 'Bedroom',
-        'North': 'Guest Room',
-        'item' : 'Secret Door'  
+    'music room' : {
+        'west' : 'bedroom',
+        'North': 'guest Room',
+        'item' : 'secret Door'  
     },
 
 }
@@ -194,10 +194,10 @@ rooms = {
 
 
 
-currentRoom = 'Hall'
+currentRoom = 'hall'
+kitchen_helper = 0
 
 showInstructions()
-
 
 run = True
 # breaking this while loop means the game is over
@@ -240,20 +240,57 @@ while run:
 
     #if they type 'ask' first    
     if move[0] == 'ask':
-        # make two checks:
-        # 1. if the current room contains an item
-        # 2. if the item in the room matches the item the player wishes to get
-        print('you are here asking')
-        # if "helper" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
-        #set the current room to the new room
-        room = input("You can ask me whether a monster or your lost pet is in a certain room. which room do you want to check? ")
-        if "monster" in rooms[room]['item']:
-            print(f"There is monster in {room}")
-        elif "pete" in rooms[room]['item']:
-            print(f"Your pet is in {room}. good luck! ")
-        else:
-            print(f"I don't feel anything in {room}")
-        time.sleep(1.5)
+        valid_input = False
+        kitchen_helper = False
+        library_helper = False
+
+
+        if currentRoom == 'kitchen' :
+            if kitchen_helper == True:
+                print("Helper is not in this room anymore")
+            else:
+                kitchen_helper = True 
+        if currentRoom == 'library' :
+            if library_helper == True:
+                print("Helper is not in this rrom anymore")
+            else:
+                library_helper = True
+
+        display_room = []
+        for i in rooms:
+            if rooms[i] != currentRoom:
+                display_room.append(i)
+
+            # make two checks:
+            # 1. if the current room contains an item
+            # 2. if the item in the room matches the item the player wishes to get
+            
+            # if "helper" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
+            #set the current room to the new room
+        print(f"Helper: You made here to {currentRoom}")
+        while (not valid_input):
+            room = input(f"Helper: You can ask me whether a monster or Pete is in a certain room.\n which room do you want to check? \n Here are the lists: {display_room}: \n")
+            if room not in rooms:
+                print("please, type the valid room name")
+            elif "Monster" in rooms[room]['item']:
+                time.sleep(1)
+                print(f"Helper: There is monster in {room}")
+                print("Helper left the room")
+                valid_input = True
+            elif "Pete" in rooms[room]['item']:
+                time.sleep(1)
+                print(f"Helper: Your pet is in {room}. good luck! ")
+                print("Helper left the room")
+                valid_input = True
+            else:
+                time.sleep(1)
+                print(f"Helper: I don't feel anything in {room}")
+                print("Helper left the room")
+                valid_input = True
+                time.sleep(1)
+
+            kitchen_helper = True
+            
 
 
 
