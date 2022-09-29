@@ -43,9 +43,29 @@ def showStatus():
                 inventory.pop("Weapon")
                 showOption(currentRoom)
             else:
-                print("Sorry, you lost")
+                time.sleep(1)
+                print("Sorry, you lost the game")
                 run = False
-                
+        elif rooms[currentRoom]['item'] == "Pete":
+            print("You found PETE!! He will go with you from now on")
+            inventory.append("Pete")
+            showOption(currentRoom)
+        
+        elif rooms[currentRoom]['item'] == "Secret Door" :
+            print("You found the Secret Door!")
+            print(f"Here's your inventory : {inventory}")
+            answer = input("Do you want to leave the house now? 1.Yes 2. No" )
+            if answer.lower == "1" or "yes":
+                if "Key" and "Pete" in inventory:
+                    print("You saved PETE!! YAY!")
+                    run = False
+                elif "Pete" in inventory: 
+                    print("oh no, you don't have a key to open the door. Please, find the key!")
+                elif "Key" in inventory:
+                    print("You got out of the Monster's house, but your friend, Pete, is still waiting for you.. You lost the game")
+            elif answer.lower == "2" or "no":
+                print("Okay, now you know the secret door is in Music room. Let's keep on journey")
+                showOption(currentRoom)
         else:
             print('get ' + rooms[currentRoom]['item'])
             showOption(currentRoom)
@@ -75,7 +95,7 @@ def showOption(currentRoom):
 
     print("---------------------------")
     
-
+def 
 
 
 inventory = []
@@ -127,7 +147,7 @@ rooms = {
         'south': 'Garden',
         'east' : 'Library',
         'north': 'Bathroom',
-        'item' : 'Pet'  
+        'item' : 'Pete'  
     },
 
     'Garden' : {
@@ -229,7 +249,7 @@ while run:
         room = input("You can ask me whether a monster or your lost pet is in a certain room. which room do you want to check? ")
         if "monster" in rooms[room]['item']:
             print(f"There is monster in {room}")
-        elif "pet" in rooms[room]['item']:
+        elif "pete" in rooms[room]['item']:
             print(f"Your pet is in {room}. good luck! ")
         else:
             print(f"I don't feel anything in {room}")
