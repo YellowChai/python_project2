@@ -81,7 +81,7 @@ def showStatus():
                 print("Okay, now you know the secret door is in Music room. Let's keep on journey")
                 showOption(currentRoom)
         
-        # if the item is not monster, key, pete, secret door, save the item in inventory
+        # if the item is not a special item (pete, key, mosnter, secret door), save the item in inventory
         else:
             print('get ' + rooms[currentRoom]['item'])
             showOption(currentRoom)   
