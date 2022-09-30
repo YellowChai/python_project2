@@ -14,7 +14,7 @@ Game Rules:
 2. There are 2 monsters in 2 different rooms. 
 3. Player has 1 life 
 4. 6 items:
-    - medicine : Player can use it at the first monster attack to get the life back  
+    - medicine : Player can use it after monster attack to get the life back  
     - weapon : Player can use it when the player met monster(can get rid of one of the monsters)
     - key : need it to open the secret door 
     - secret door : way out(need a key)
