@@ -23,20 +23,25 @@ def showStatus():
     print('You are in the ' + currentRoom)
     # print what the player is carrying
     print('Inventory:', inventory)
+
+    """check item in the room"""
     # check if there's an item in the room, if so print it
-    
     if "item" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['item'])
         # if the item is helper, print the option to ask quesiton. 
         if rooms[currentRoom]['item'] == "Helper":
-            print('ask ' + rooms[currentRoom]['item'])
             print('Your current options are...')
-            showOption(currentRoom)
+            print('ask ' + rooms[currentRoom]['item'])
+            showOption(currentRoom)         
+            del rooms[currentRoom]['item']   
 
         # if the item is monster, check if the player has either medicien or weapon in inventory 
         # if the player has medicine or weapon, player survives, if not, player lose the game 
         elif rooms[currentRoom]['item'] == "Monster":
             print("There is monster in this room! It's attacking you!! ")
+            time.sleep(1)
+            print(".......")
+            time.sleep(1)
             if "medicine" in inventory:
                 print("Thank God, you have medicine. You are healed from the attack")
                 inventory.remove('medicine')
@@ -51,7 +56,6 @@ def showStatus():
                 time.sleep(1)
                 print("Sorry, you lost the game")
                 run = False
-
         # if the player meet Pete, save it in inventory, and remove Pete from the room. 
         elif rooms[currentRoom]['item'] == "Pete" and "Pete" not in inventory:
             print("You found PETE!! He will go with you from now on")
@@ -59,7 +63,6 @@ def showStatus():
             print('Your current options are...')
             del rooms[currentRoom]['item']
             showOption(currentRoom)       
-
         # if the player found the secret door, display player's inventory and ask if player wants to leave now.
         elif rooms[currentRoom]['item'] == "secret door" :
             print("You found the Secret Door!")
@@ -93,8 +96,8 @@ def showStatus():
         showOption(currentRoom)
     return run 
 
-# show the rooms and direction user can go. 
 
+# show the rooms and direction user can go. 
 def showOption(currentRoom):
 
     if "south" in rooms[currentRoom]:
@@ -116,8 +119,6 @@ def showOption(currentRoom):
     print("--------------------------------------")
     
 
-#player starts the game with 0 item in inventory 
-inventory = []
 #room dictionary 
 rooms = {
     
@@ -209,13 +210,14 @@ rooms = {
 
 }
 
-
+#player starts the game with 0 item in inventory 
+inventory = []
 # user starts the game from the hall 
 currentRoom = 'hall'
-
 # value changes if the player meet the helper. this prevents player to revisit the helper's room to get the help
 kitchen_helper = False
 library_helper = False
+
 
 # game starts 
 showInstructions()
@@ -238,7 +240,7 @@ while run:
     # therefore, "get golden key" becomes ["get", "golden key"]          
     move = move.lower().split(" ", 1)
 
-    #if they type 'go' first
+    #if user type 'go' first
     if move[0] == 'go':
         #check that they are allowed wherever they want to go
         if move[1] in rooms[currentRoom]:
@@ -248,7 +250,7 @@ while run:
         else:
             print('You can\'t go that way!')
 
-    #if they type 'get' first
+    #if user type 'get' first
     if move[0] == 'get' :
         # make two checks:
         # 1. if the current room contains an item
@@ -262,7 +264,7 @@ while run:
             del rooms[currentRoom]['item']
         # if there's no item in the room or the item doesn't match
 
-    #if they type 'ask' first    
+    #if user type 'ask' first    
     if move[0] == 'ask':
         valid_input = False
         # check if the player met the helper at the kitchen or library. 
@@ -287,12 +289,16 @@ while run:
             if rooms[i] != currentRoom:
                 display_room.append(i)
             
-        # helper ask user to choose the room 
+        # helper asks user to choose the room 
         # if there's monster or pete in the chosen room, helper will tell the user
         # while loop runs until user input is valid 
         while (not valid_input):    
-            print(f"Helper: You made here to {currentRoom}")
-            room = input(f" Helper: You can ask me whether a monster or Pete is in a certain room.\n which room do you want to check? \n Here are the lists: {display_room}: \n >")
+            print(f" Helper: You made here to {currentRoom}")
+            print()
+            print (" Helper: You can ask me whether a monster or Pete is in a certain room.")
+            print()
+            room = input(f" which room do you want to check? \n Here are the lists: {display_room}: \n >")
+            print()
             if room not in rooms:
                 print(" please, type the valid room name")
             elif 'item' not in rooms[room]:
@@ -301,6 +307,7 @@ while run:
             elif "Monster" in rooms[room]['item']:
                 time.sleep(1)
                 print(f" Helper: There is monster in {room}")
+                print()
                 print(" Helper left the room")
                 valid_input = True
             elif "Pete" in rooms[room]['item']:
@@ -314,8 +321,9 @@ while run:
                 print(" Helper left the room")
                 valid_input = True
                 time.sleep(1)
-            del rooms[currentRoom]['item']
+            
             kitchen_helper = True
+        time.sleep(1)
             
 
 
