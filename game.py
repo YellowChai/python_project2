@@ -77,13 +77,15 @@ def showStatus():
             # if the player select yes, check if key and pete are in the inventory.
             # if key and pete both are in inventory, player wins. if only key in inventory, user cannot leave. if only Pete in inventory, user lose.
             if answer.lower == "1" or "yes":
-                if "key" and "Pete" in inventory:
+                if "key" in inventory and "Pete" in inventory:
                     print("You saved PETE!! YAY!")
                     run = False
                 elif "Pete" in inventory: 
                     print("oh no, you don't have a key to open the door. Please, find the key!")
-                elif "Key" in inventory:
+                    showOption(currentRoom)
+                elif "key" in inventory:
                     print("You got out of the Monster's house, but your friend, Pete, is still waiting for you.. You lost the game")
+                    run = False
             # if player select to keep playing, display the options 
             elif answer.lower == "2" or "no":
                 print("Okay, now you know the secret door is in Music room. Let's keep on journey")
