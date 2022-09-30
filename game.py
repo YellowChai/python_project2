@@ -1,7 +1,5 @@
-
 #!/usr/bin/env python3
-# A dictionary for each room with item and direction to linking room
-from pickle import FALSE
+''' Alice Huh - RPG Game '''
 import time
 
 
@@ -26,13 +24,17 @@ def showStatus():
     # print what the player is carrying
     print('Inventory:', inventory)
     # check if there's an item in the room, if so print it
-    # if the item is helper, print the option to ask quesiton. 
+    
     if "item" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['item'])
+        # if the item is helper, print the option to ask quesiton. 
         if rooms[currentRoom]['item'] == "Helper":
             print('ask ' + rooms[currentRoom]['item'])
             print('Your current options are...')
             showOption(currentRoom)
+
+        # if the item is monster, check if the player has either medicien or weapon in inventory 
+        # if the player has medicine or weapon, player survives, if not, player lose the game 
         elif rooms[currentRoom]['item'] == "Monster":
             print("There is monster in this room! It's attacking you!! ")
             if "medicine" in inventory:
@@ -49,16 +51,23 @@ def showStatus():
                 time.sleep(1)
                 print("Sorry, you lost the game")
                 run = False
+
+        # if the player meet Pete, save it in inventory, and remove Pete from the room. 
         elif rooms[currentRoom]['item'] == "Pete" and "Pete" not in inventory:
             print("You found PETE!! He will go with you from now on")
             inventory.append("Pete")
             print('Your current options are...')
             del rooms[currentRoom]['item']
             showOption(currentRoom)       
+
+        # if the player found the secret door, display player's inventory and ask if player wants to leave now.
         elif rooms[currentRoom]['item'] == "secret door" :
             print("You found the Secret Door!")
             print(f"Here's your inventory : {inventory}")
             answer = input("Do you want to leave the house now? 1.Yes 2. No \n> " )
+            
+            # if the player select yes, check if key and pete are in the inventory.
+            # if key and pete both are in inventory, player wins. if only key in inventory, user cannot leave. if only Pete in inventory, user lose.
             if answer.lower == "1" or "yes":
                 if "key" and "Pete" in inventory:
                     print("You saved PETE!! YAY!")
@@ -67,23 +76,27 @@ def showStatus():
                     print("oh no, you don't have a key to open the door. Please, find the key!")
                 elif "Key" in inventory:
                     print("You got out of the Monster's house, but your friend, Pete, is still waiting for you.. You lost the game")
+            # if player select to keep playing, display the options 
             elif answer.lower == "2" or "no":
                 print("Okay, now you know the secret door is in Music room. Let's keep on journey")
                 showOption(currentRoom)
+        
+        # if the item is not monster, key, pete, secret door, save the item in inventory
         else:
             print('get ' + rooms[currentRoom]['item'])
-            showOption(currentRoom)
-        
+            showOption(currentRoom)   
+    
+    # no item found in the room     
     else: 
         print('There is no item found in ' + currentRoom)
         print('Your current options are...')
         showOption(currentRoom)
     return run 
 
+# show the rooms and direction user can go. 
+
 def showOption(currentRoom):
-    # print the options that player can go from current room.
-    # print("--------------------------------------")
-    # print("Here are the commands you can select")
+
     if "south" in rooms[currentRoom]:
         south = rooms[currentRoom]['south']
         print(f'go south: {south}')
@@ -103,10 +116,9 @@ def showOption(currentRoom):
     print("--------------------------------------")
     
 
-
+#player starts the game with 0 item in inventory 
 inventory = []
-
-
+#room dictionary 
 rooms = {
     
     'hall' : {
@@ -198,13 +210,19 @@ rooms = {
 }
 
 
-
+# user starts the game from the hall 
 currentRoom = 'hall'
+
+# value changes if the player meet the helper. this prevents player to revisit the helper's room to get the help
 kitchen_helper = False
 library_helper = False
+
+# game starts 
 showInstructions()
 
+# when the value changes to False, game ends. 
 run = True
+
 # breaking this while loop means the game is over
 while run:
     run = showStatus()
@@ -247,8 +265,8 @@ while run:
     #if they type 'ask' first    
     if move[0] == 'ask':
         valid_input = False
-
-
+        # check if the player met the helper at the kitchen or library. 
+        # check if the player already met the same helper before, and if so, player cannot meet the helper
         if currentRoom == 'kitchen' :
             if kitchen_helper == True:
                 print("Helper is not in this room anymore")
@@ -262,18 +280,16 @@ while run:
             else:
                 library_helper = True
 
+        
+        # make a list of rooms except the current room. This list will be displayed by helper for room choice. 
         display_room = []
         for i in rooms:
             if rooms[i] != currentRoom:
                 display_room.append(i)
-
-            # make two checks:
-            # 1. if the current room contains an item
-            # 2. if the item in the room matches the item the player wishes to get
             
-            # if "helper" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
-            #set the current room to the new room
-        
+        # helper ask user to choose the room 
+        # if there's monster or pete in the chosen room, helper will tell the user
+        # while loop runs until user input is valid 
         while (not valid_input):    
             print(f"Helper: You made here to {currentRoom}")
             room = input(f" Helper: You can ask me whether a monster or Pete is in a certain room.\n which room do you want to check? \n Here are the lists: {display_room}: \n >")
@@ -304,6 +320,5 @@ while run:
 
 
 
-    ## lower case, ask only one time. 
 
 
