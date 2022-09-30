@@ -34,7 +34,8 @@ def showStatus():
             print('ask ' + rooms[currentRoom]['item'])
             showOption(currentRoom)         
             del rooms[currentRoom]['item']   
-
+        
+        
         # if the item is monster, check if the player has either medicien or weapon in inventory 
         # if the player has medicine or weapon, player survives, if not, player lose the game 
         elif rooms[currentRoom]['item'] == "Monster":
@@ -56,6 +57,8 @@ def showStatus():
                 time.sleep(1)
                 print("Sorry, you lost the game")
                 run = False
+
+        # if the item is Pete        
         # if the player meet Pete, save it in inventory, and remove Pete from the room. 
         elif rooms[currentRoom]['item'] == "Pete" and "Pete" not in inventory:
             print("You found PETE!! He will go with you from now on")
@@ -63,12 +66,14 @@ def showStatus():
             print('Your current options are...')
             del rooms[currentRoom]['item']
             showOption(currentRoom)       
+        
+        # if the item is secret door
         # if the player found the secret door, display player's inventory and ask if player wants to leave now.
         elif rooms[currentRoom]['item'] == "secret door" :
             print("You found the Secret Door!")
             print(f"Here's your inventory : {inventory}")
             answer = input("Do you want to leave the house now? 1.Yes 2. No \n> " )
-            
+           
             # if the player select yes, check if key and pete are in the inventory.
             # if key and pete both are in inventory, player wins. if only key in inventory, user cannot leave. if only Pete in inventory, user lose.
             if answer.lower == "1" or "yes":
@@ -83,7 +88,7 @@ def showStatus():
             elif answer.lower == "2" or "no":
                 print("Okay, now you know the secret door is in Music room. Let's keep on journey")
                 showOption(currentRoom)
-        
+    
         # if the item is not a special item (pete, key, mosnter, secret door), save the item in inventory
         else:
             print('get ' + rooms[currentRoom]['item'])
@@ -143,8 +148,8 @@ rooms = {
 
     'powder room' : {
         'south': 'bedroom',
-        'east' : 'guest room',
-        'west' : 'garden',
+        'west' : 'guest room',
+        'east' : 'garden',
         'north': 'library',
         'item' : 'weapon'
     },
@@ -158,52 +163,52 @@ rooms = {
 
     'bathroom' : {
         'south': 'study room',
-        'east' : 'living room',
+        'west' : 'living room',
         'item' : 'medicine' 
     },
 
     'study room' : {
         'south': 'garden',
-        'east' : 'library',
+        'west' : 'library',
         'north': 'bathroom',
         'item' : 'Pete'  
     },
 
     'garden' : {
         'south': 'flex room',
-        'east' : 'powder room',
+        'west' : 'powder room',
         'north': 'study room',
     },
 
     'flex room' : {
-        'east' : 'bedroom',
+        'west' : 'bedroom',
         'north': 'garden',
         'item' : 'key'  
     },
 
     'kitchen' : {
         'south': 'dining room',
-        'west' : 'living room',
+        'east' : 'living room',
         'item' : 'Helper'  
     },
 
     'dining room' : {
         'south': 'guest room',
-        'west' : 'library',
+        'east' : 'library',
         'north': 'kitchen',
         'item' : 'Monster'  
     },
 
     'guest room' : {
         'south': 'music room',
-        'west' : 'powder room',
+        'east' : 'powder room',
         'north': 'dining room'
         
     },
 
 
     'music room' : {
-        'west' : 'bedroom',
+        'east' : 'bedroom',
         'north': 'guest room',
         'item' : 'secret door'  
     },
@@ -267,7 +272,7 @@ while run:
     #if user type 'ask' first    
     if move[0] == 'ask':
         valid_input = False
-        # check if the player met the helper at the kitchen or library. 
+        
         # check if the player already met the same helper before, and if so, player cannot meet the helper
         if currentRoom == 'kitchen' :
             if kitchen_helper == True:
@@ -321,8 +326,7 @@ while run:
                 print(" Helper left the room")
                 valid_input = True
                 time.sleep(1)
-            
-            kitchen_helper = True
+
         time.sleep(1)
             
 
