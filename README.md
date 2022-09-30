@@ -3,7 +3,7 @@
 SAVE PETE 
 
 About game 
-- Player need to find his pet and escape from the monster's house
+- Player need to find Pete and escape from the monster's house
     - Player need to find Pete 
     - Player need to find a key
     - player need to find a secret door
